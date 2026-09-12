@@ -8,6 +8,9 @@ import os
 import time
 
 
+MARKERS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "markers")
+
+
 def main():
     print("=" * 65)
     print("Task 1: Naive HuggingFace Inference - The Baseline")
@@ -27,7 +30,7 @@ def main():
 
     # TODO 1: Load the model
     # Hint: Use the model_name variable ("HuggingFaceTB/SmolLM-135M")
-    model = AutoModelForCausalLM.from_pretrained(___)  # TODO: Set to model_name
+    model = AutoModelForCausalLM.from_pretrained(model_name)  # TODO: Set to model_name
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
@@ -46,7 +49,7 @@ def main():
     start_time = time.time()
     outputs = model.generate(
         **inputs,
-        max_new_tokens=___,  # TODO: Set to 50
+        max_new_tokens=50,  # TODO: Set to 50
         do_sample=True,
         temperature=0.7,
     )
@@ -70,8 +73,8 @@ def main():
     print(f"Tokens per second: {tokens_per_second:.1f} tok/s")
 
     # Save baseline for later comparison
-    baseline_file = "/root/markers/hf_baseline.txt"
-    os.makedirs("/root/markers", exist_ok=True)
+    baseline_file = os.path.join(MARKERS_DIR, "hf_baseline.txt")
+    os.makedirs(MARKERS_DIR, exist_ok=True)
     with open(baseline_file, "w") as f:
         f.write(f"tokens_per_second={tokens_per_second:.2f}\n")
         f.write(f"total_time={total_time:.4f}\n")
@@ -87,11 +90,11 @@ def main():
     print("=" * 65)
 
     # Create marker file
-    with open("/root/markers/task1_complete.txt", "w") as f:
+    with open(os.path.join(MARKERS_DIR, "task1_complete.txt"), "w") as f:
         f.write("TASK_1_COMPLETE\n")
 
     print("\nTask 1 Complete!")
-    print("Next: python /root/code/task_2_vllm_inference.py")
+    print("Next: python task_2_vllm_inference.py")
 
     # Clean up
     del model
