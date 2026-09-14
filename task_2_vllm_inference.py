@@ -45,12 +45,12 @@ def main():
     # TODO 1: Initialize the vLLM engine
     # Hint: Pass the model_name variable to the LLM constructor
     # Note: enforce_eager=True skips torch.compile to save memory on CPU
-    llm = LLM(model=___, max_model_len=128, enforce_eager=True,
+    llm = LLM(model=model_name, max_model_len=128, enforce_eager=True,
               kv_cache_memory_bytes=KV_CACHE_BYTES)  # TODO: Set to model_name
 
     # TODO 2: Create SamplingParams for generation
     # Hint: Set temperature and max_tokens for text generation
-    sampling_params = SamplingParams(temperature=___, max_tokens=___)  # TODO: Set to 0.7 and 50
+    sampling_params = SamplingParams(temperature=0.7, max_tokens=50)  # TODO: Set to 0.7 and 50
 
     print("vLLM engine ready.")
 
