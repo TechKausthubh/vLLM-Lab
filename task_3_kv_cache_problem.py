@@ -23,7 +23,7 @@ def main():
 
     # TODO 1: Set the maximum sequence length for worst-case allocation
     # Hint: Traditional systems use values like 512, 2048, or 4096
-    max_seq_len = ___  # TODO: Set to 512
+    max_seq_len = 512  # TODO: Set to 512
 
     print(f"\nMax sequence length (pre-allocated per request): {max_seq_len}")
     print(f"Number of concurrent requests: {len(requests)}")
@@ -49,7 +49,7 @@ def main():
 
         # TODO 2: Calculate the wasted memory percentage
         # Hint: Subtract actual from allocated, then divide by allocated
-        wasted_pct = (___) / ___ * 100  # TODO: Set to (allocated - actual) / allocated * 100
+        wasted_pct = (allocated - actual) / allocated * 100  # TODO: Set to (allocated - actual) / allocated * 100
 
         print(f"  Request {req['id']} ({req['description']}):")
         print(f"    [{bar}] {actual}/{allocated} used ({wasted_pct:.1f}% wasted)")
@@ -95,8 +95,8 @@ def main():
     print("=" * 65)
 
     # Create marker
-    os.makedirs("/root/markers", exist_ok=True)
-    with open("/root/markers/task3_complete.txt", "w") as f:
+    os.makedirs("markers", exist_ok=True)
+    with open("markers/task3_complete.txt", "w") as f:
         f.write("TASK_3_COMPLETE\n")
 
     print("\nTask 3 Complete!")
