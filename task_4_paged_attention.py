@@ -26,7 +26,7 @@ def main():
 
     # TODO 1: Set the page size for paged allocation
     # Hint: A typical page holds 16 tokens (like OS 4KB pages)
-    page_size = ___  # TODO: Set to 16
+    page_size = 16  # TODO: Set to 16
 
     print(f"\nPage size: {page_size} tokens per page")
     print(f"Contiguous allocation: {max_seq_len} tokens per request (worst-case)")
@@ -48,7 +48,7 @@ def main():
 
         # TODO 2: Calculate how many pages are needed
         # Hint: Round up to nearest page using math.ceil
-        pages_needed = math.ceil(actual / ___)  # TODO: Set to page_size
+        pages_needed = math.ceil(actual / page_size)  # TODO: Set to page_size
 
         paged_alloc = pages_needed * page_size
         total_paged_allocated += paged_alloc
@@ -63,7 +63,7 @@ def main():
 
     # TODO 3: Calculate paged memory utilization
     # Hint: Divide total used by total paged allocated
-    paged_utilization = total_used / ___ * 100  # TODO: Set to total_paged_allocated
+    paged_utilization = total_used / total_paged_allocated * 100  # TODO: Set to total_paged_allocated
     contiguous_utilization = total_used / total_contiguous_allocated * 100
 
     # --- SIDE-BY-SIDE COMPARISON ---
@@ -111,12 +111,12 @@ def main():
     print("=" * 65)
 
     # Create marker
-    os.makedirs("/root/markers", exist_ok=True)
-    with open("/root/markers/task4_complete.txt", "w") as f:
+    os.makedirs("markers", exist_ok=True)
+    with open("markers/task4_complete.txt", "w") as f:
         f.write("TASK_4_COMPLETE\n")
 
     print("\nTask 4 Complete!")
-    print("Next: python /root/code/task_5_api_server.py")
+    print("Next: python task_5_api_server.py")
 
 
 if __name__ == "__main__":
