@@ -9,6 +9,10 @@ import sys
 import time
 import subprocess
 
+MARKERS_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "markers",
+)
 # Configure vLLM for CPU-only execution.
 # The lab VM has a 4GB memory limit, so run the engine in-process
 # (VLLM_ENABLE_V1_MULTIPROCESSING=0) and cap the KV cache via
@@ -71,8 +75,8 @@ def main():
         # Start the server detached, logging to a file. Piping to this
         # script would break the server once the script exits (closed
         # pipes) or stall it during startup (full pipe buffers).
-        os.makedirs("/root/markers", exist_ok=True)
-        server_log = open("/root/markers/vllm_server.log", "w")
+        os.makedirs(MARKERS_DIR, exist_ok=True)
+        server_log = open(os.path.join(MARKERS_DIR, "vllm_server.log"), "w")
         server_process = subprocess.Popen(
             [
                 sys.executable, "-m", "vllm.entrypoints.openai.api_server",
@@ -87,10 +91,10 @@ def main():
             start_new_session=True,
         )
         print(f"  Server process started (PID: {server_process.pid})")
-        print("  Server logs: /root/markers/vllm_server.log")
+        print(f"  Server logs: {os.path.join(MARKERS_DIR, 'vllm_server.log')}")
 
         # Save PID for later tasks
-        with open("/root/markers/vllm_server_pid.txt", "w") as f:
+        with open(os.path.join(MARKERS_DIR, "vllm_server_pid.txt"), "w") as f:
             f.write(str(server_process.pid))
 
     # Wait for server to be ready
@@ -110,13 +114,13 @@ def main():
 
     # TODO 1: Configure the OpenAI client to point to the local vLLM server
     # Hint: Point the client to the local vLLM server URL
-    client = OpenAI(base_url="___", api_key="___")  # TODO: Set to "http://localhost:8000/v1" and "not-needed"
+    client = OpenAI(base_url="http://localhost:8000/v1", api_key="not-needed")  # TODO: Set to "http://localhost:8000/v1" and "not-needed"
 
     # TODO 2: Send a completion request
     # Hint: Use the model_name variable
     start_time = time.time()
     response = client.completions.create(
-        model=___,  # TODO: Set to model_name
+        model=model_name,  # TODO: Set to model_name
         prompt=prompt,
         max_tokens=50,
         temperature=0.7,
@@ -153,11 +157,11 @@ def main():
     print("=" * 65)
 
     # Create marker
-    with open("/root/markers/task5_complete.txt", "w") as f:
+    with open(os.path.join(MARKERS_DIR, "task5_complete.txt"), "w") as f:
         f.write("TASK_5_COMPLETE\n")
 
     print("\nTask 5 Complete!")
-    print("Next: python /root/code/task_6_multi_user_load.py")
+    print("Next: python task_6_multi_user_load.py")
 
 
 if __name__ == "__main__":
